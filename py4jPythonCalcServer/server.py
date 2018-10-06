@@ -5,7 +5,7 @@
 
 from py4j.java_gateway import JavaGateway, CallbackServerParameters
 
-class GreendataCalcServer:
+class RiskCalcServer:
     '''
     This server shall work
     '''

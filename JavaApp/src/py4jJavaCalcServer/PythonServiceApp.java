@@ -1,4 +1,4 @@
-package py4jGreendata;
+package py4jJavaCalcServer;
 
 import py4j.GatewayServer;
 

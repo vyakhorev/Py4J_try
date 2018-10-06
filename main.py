@@ -1,12 +1,12 @@
 
-from pygreendata.listener import PythonListener
-from pygreendata.server import GreendataCalcServer
+from py4jPythonCalcServer.listener import PythonListener
+from py4jPythonCalcServer.server import RiskCalcServer
 
 __author__ = "Alexey Vyakhorev"
 
 
 if __name__ == "__main__":
-    py_server = GreendataCalcServer()  # uses Py4J event loop
+    py_server = RiskCalcServer()  # uses Py4J event loop
     py_server.start()
 
     listener = PythonListener(py_server)

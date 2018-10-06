@@ -5,7 +5,7 @@ class PythonListener:
     '''
 
     class Java:
-        implements = ["py4jGreendata.PythonListenerInterface"]
+        implements = ["py4jJavaCalcServer.PythonListenerInterface"]
 
     def __init__(self, server):
         self.server = server
