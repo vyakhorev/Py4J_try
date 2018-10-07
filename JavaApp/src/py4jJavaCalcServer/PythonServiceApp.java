@@ -4,8 +4,26 @@ import py4j.GatewayServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PythonServiceApp {
+
+    /**
+     * All public methods of this class shall be available in the Python application
+    * */
+
+//    /* Object data interface */
+//    public DBObjectReference getInstance(String DBKey) {
+//        return
+//    }
+
+    public void updateObjectData(Map<Long, String> data_map) {
+        for (Map.Entry<Long, String> entry : data_map.entrySet()) {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+    }
+
+    /* Events */
 
     private List<PythonListenerInterface> listeners = new ArrayList<PythonListenerInterface>();
 

@@ -12,7 +12,7 @@ class PythonListener:
 
     def notify(self, obj):
         # # This would be called back from Java
-        # print("Notified by Java")
-        #         # print(obj)
+        print("Notified by Java")
+        print(obj)
         self.server.print_to_java_console('hello from python!')
         return "A Return Value"
