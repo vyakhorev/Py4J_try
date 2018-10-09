@@ -44,11 +44,12 @@ public class PythonServiceApp {
     // Called from Java application when the user wants to call python script (from script editor)
     private double callPythonScript(String script_name){
         if (this.python_callbacks.containsKey(script_name)) {
+            // Get script callback
             PythonScriptCallback callback = this.python_callbacks.get(script_name);
-
-            HashMap<String, Double> calc_context = new HashMap<String, Double>();
-            calc_context.put("Attr1", 10.0);
-            calc_context.put("Attr2", 20.0);
+            // Imitate database query
+            DataBaseObjectInstance type_instance = new DataBaseObjectInstance();
+            // Let this database information be the calculation context
+            HashMap<Object, Object> calc_context = type_instance.getDataFromDatabase();
             return (double)callback.calculate(calc_context);
         }
         System.out.println(String.format("we've got an exceptional situation with %s script here", script_name));
@@ -62,6 +63,7 @@ public class PythonServiceApp {
 
     /* main loop */
     public static void main(String[] args) {
+
         PythonServiceApp pyapp = new PythonServiceApp();
         GatewayServer gatewayServer = new GatewayServer(pyapp);
         gatewayServer.start(true);
@@ -71,36 +73,26 @@ public class PythonServiceApp {
 
         // You have 5 seconds to start python app
         int delay_for_python_startup = 5;
-        int call_interval = 1;  // seconds
+        int call_interval = 2;  // seconds
         // Start calling python scripts every call_interval seconds
 
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(() -> pyapp.someoneCallsScript(),
+        executorService.scheduleAtFixedRate(() -> pyapp.someoneCallsScript("NeuralNetCall"),
                                             delay_for_python_startup,
                                             call_interval,
                                             TimeUnit.SECONDS);
 
         final ScheduledExecutorService executorService2 = Executors.newSingleThreadScheduledExecutor();
-        executorService2.scheduleAtFixedRate(() -> pyapp.someoneCallsOtherScript(),
+        executorService2.scheduleAtFixedRate(() -> pyapp.someoneCallsScript("SomeLogisticRegression"),
                                              delay_for_python_startup,
                                              call_interval,
                                              TimeUnit.SECONDS);
     }
 
     // imitate user calling a script
-    private void someoneCallsScript() {
-        System.out.println("going to calc...");
-        double calc_result = this.callPythonScript("HeavyCall");
-        System.out.println(String.format("calc result is %f", calc_result));
+    private void someoneCallsScript(String py_func_name) {
+        double calc_result = this.callPythonScript(py_func_name);
+        System.out.println(String.format("result of %s call is %f", py_func_name, calc_result));
     }
-
-    // imitate user calling another script
-    private void someoneCallsOtherScript() {
-        System.out.println("going to calc...");
-        double calc_result = this.callPythonScript("SomeLogisticRegression");
-        System.out.println(String.format("calc result is %f", calc_result));
-    }
-
-
 
 }

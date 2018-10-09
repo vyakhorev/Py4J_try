@@ -5,6 +5,11 @@
 
 from py4j.java_gateway import JavaGateway, CallbackServerParameters
 
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler())
+
 class RiskCalcServer:
 
     def __init__(self):
@@ -15,10 +20,13 @@ class RiskCalcServer:
         # self.java_gateway.jvm - jvm replica
         self.java_gateway = JavaGateway(callback_server_parameters=CallbackServerParameters())
         self.java_gateway.setPythonCalcServerStatusAlive()
+        logger.info("String the server")
 
     def shutdown(self):
         self.java_gateway.setPythonCalcServerStatusDead()
         self.java_gateway.shutdown()
+        logger.info("Shutting down the server")
 
     def register_callback(self, new_callback):
         self.java_gateway.registerCallback(new_callback)
+        logger.info("Registering the callback")
